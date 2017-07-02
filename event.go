@@ -2,7 +2,7 @@ package event
 
 import (
 	"reflect"
-	"fmt"
+
 )
 
 type Event interface{
@@ -15,12 +15,18 @@ type Event interface{
 
 type Dispatcher struct {
 	// list listeners
-	listenersToFunction map[string] func()
+	listeners map[string]map[string]interface{}
 }
 
+func Constructor()  *Dispatcher{
+	d := Dispatcher{}
+	d.listeners = make(map[string]map[string]interface{})
+	return &d
+}
 func (dispatcher *Dispatcher) Add(name string, execute interface{}) {
-	fmt.Println(getType(execute))
-	//dispatcher.listenersToFunction[name] = closure
+	nameType := getType(execute)
+
+	dispatcher.listeners[name][nameType.String()] = execute
 }
 
 
