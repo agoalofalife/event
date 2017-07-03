@@ -1,9 +1,8 @@
 package event
 
 import (
-	"reflect"
 	"os"
-	"log"
+	"reflect"
 )
 
 type Event interface {
@@ -46,7 +45,7 @@ func (dispatcher *Dispatcher) AddClosure(name string, performing interface{}) {
 	}
 }
 
-func (dispatcher *Dispatcher) AddStructure(name Event, performing Listener)  {
+func (dispatcher *Dispatcher) AddStructure(name Event, performing Listener) {
 	nameStructure := getNameStructure(name)
 	//if _, exist := dispatcher.listenersStr[name]; !exist {
 	//	dispatcher.listenersStr[name] = map[int]Listener{}
@@ -57,7 +56,6 @@ func (dispatcher *Dispatcher) AddStructure(name Event, performing Listener)  {
 	//os.Exit(2)
 	dispatcher.AddClosure(nameStructure, performing)
 }
-
 
 func (dispatcher *Dispatcher) Go(event string, parameters ...interface{}) {
 	if _, exist := dispatcher.listeners[event]; exist {
