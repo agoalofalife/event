@@ -2,12 +2,12 @@ package event
 
 import (
 	"reflect"
+	"log"
 )
 
 type Event interface{
 	Add(name string, performing interface{})
 }
-
 
 
 type Dispatcher struct {
@@ -26,23 +26,26 @@ func Constructor()  *Dispatcher{
 	return d
 }
 
-// add new event
+// add new listeners
 func (dispatcher *Dispatcher) Add(name string, performing interface{}) {
-	nameType := getType(performing)
-	//dispatcher.listeners[name] = make(map[int]map[string]interface{})
-	//dispatcher.listeners[name][len(dispatcher.listeners[name])] = map[string]interface{}{"w":performing}
-	dispatcher.listeners = map[string]map[int]map[string]interface{}{
-		name : map[int]map[string]interface{}{
-			len(dispatcher.listeners[name]) : map[string]interface{}{
-				nameType.String() : performing,
-			},
-		},
-	}
-
-	//dispatcher.listeners[name][len(dispatcher.listeners[name])] = performing
+	dispatcher.addListeners(name, performing)
 }
 
+func (dispatcher *Dispatcher) addListeners(name string, performing interface{})  {
+	nameType := getType(performing)
 
+	       if dispatcher.listeners[name] != nil{
+		       dispatcher.listeners[name][len(dispatcher.listeners[name])][nameType.String()] = performing
+	       } else{
+		       dispatcher.listeners = map[string]map[int]map[string]interface{}{
+			       name : map[int]map[string]interface{}{
+				       len(dispatcher.listeners[name]) : map[string]interface{}{
+					       nameType.String() : performing,
+				       },
+			       },
+		       }
+	       }
+}
 
 // get type  (func(), string ..)
 func getType(some interface{}) reflect.Type {
