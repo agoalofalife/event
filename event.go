@@ -2,6 +2,8 @@ package event
 
 import (
 	"reflect"
+	"log"
+	"os"
 )
 
 type Event interface {
@@ -29,11 +31,7 @@ func Constructor() *Dispatcher {
 }
 
 // add new listeners
-func (dispatcher *Dispatcher) Add(name string, performing interface{}) {
-	dispatcher.addListeners(name, performing)
-}
-
-func (dispatcher *Dispatcher) addListeners(name string, performing interface{}) {
+func (dispatcher *Dispatcher) AddClosure(name string, performing interface{}) {
 	nameType := getType(performing)
 
 	if _, exist := dispatcher.listeners[name]; !exist {
@@ -43,6 +41,12 @@ func (dispatcher *Dispatcher) addListeners(name string, performing interface{}) 
 		nameType.String(): performing,
 	}
 }
+
+func (dispatcher *Dispatcher) AddStructure(name struct{}, performing struct{})  {
+	log.Println(reflect.ValueOf(name)))
+	os.Exit(2)
+}
+
 
 func (dispatcher *Dispatcher) Go(event string, parameters ...interface{}) {
 	if _, exist := dispatcher.listeners[event]; exist {
@@ -79,4 +83,8 @@ func resolver(pointerType string, pointer interface{}, parameters ...interface{}
 // get type  return (func, string ..)
 func getType(some interface{}) reflect.Kind {
 	return reflect.ValueOf(some).Kind()
+}
+
+func getNameStructure(structure struct{}) string {
+	return reflect.TypeOf(structure).Name()
 }
