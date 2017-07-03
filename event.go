@@ -2,7 +2,6 @@ package event
 
 import (
 	"reflect"
-	"log"
 )
 
 type Event interface {
@@ -42,12 +41,11 @@ func (dispatcher *Dispatcher) addListeners(name string, performing interface{}) 
 	}
 }
 
-func (dispatcher *Dispatcher) Go(event string)  {
-	if _, exist := dispatcher.listeners[event]; exist{
+func (dispatcher *Dispatcher) Go(event string, parameters ...interface{}) {
+	if _, exist := dispatcher.listeners[event]; exist {
 		for _, iterate := range dispatcher.listeners[event] {
 			for typing, pointer := range iterate {
-				resolver(typing, pointer)
-				log.Println(typing,pointer)
+				resolver(typing, pointer, parameters...)
 			}
 		}
 	} else {
@@ -56,21 +54,27 @@ func (dispatcher *Dispatcher) Go(event string)  {
 }
 
 // alias Go method
-func (dispatcher *Dispatcher) Fire(event string)  {
-	dispatcher.Go(event)
+func (dispatcher *Dispatcher) Fire(event string, parameters ...interface{}) {
+	dispatcher.Go(event, parameters...)
 }
 
-
-func resolver(pointerType string, pointer interface{}) {
+func resolver(pointerType string, pointer interface{}, parameters ...interface{}) {
 	switch pointerType {
 	// call closure
-	  case "func()" :
-		  value :=  reflect.ValueOf(pointer)
-		  value.Call(nil)
+	case "func":
+		in := make([]reflect.Value, 0)
+
+		for _, argument := range parameters {
+			in = append(in, reflect.ValueOf(argument))
+		}
+
+		value := reflect.ValueOf(pointer)
+		value.Call(in)
+
 	}
 }
 
-// get type  (func(), string ..)
-func getType(some interface{}) reflect.Type {
-	return reflect.TypeOf(some)
+// get type  return (func, string ..)
+func getType(some interface{}) reflect.Kind {
+	return reflect.ValueOf(some).Kind()
 }
