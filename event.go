@@ -2,6 +2,7 @@ package event
 
 import (
 	"reflect"
+	"log"
 )
 
 type Event interface {
@@ -21,7 +22,6 @@ type Dispatcher struct {
 // start
 func Constructor() *Dispatcher {
 	d := &Dispatcher{}
-	//d.listeners = make(map[string]map[int]map[string]interface{})
 	d.listeners = map[string]map[int]map[string]interface{}{}
 	return d
 }
@@ -34,32 +34,39 @@ func (dispatcher *Dispatcher) Add(name string, performing interface{}) {
 func (dispatcher *Dispatcher) addListeners(name string, performing interface{}) {
 	nameType := getType(performing)
 
-	//if dispatcher.listeners[name] != nil{
-	//       dispatcher.listeners[name][len(dispatcher.listeners[name])][nameType.String()] = performing
-	//} else{
-	//       dispatcher.listeners = map[string]map[int]map[string]interface{}{
-	//	       name : map[int]map[string]interface{}{
-	//		       len(dispatcher.listeners[name]) : map[string]interface{}{
-	//			       nameType.String() : performing,
-	//		       },
-	//	       },
-	//       }
-	//}
-
-	//dispatcher.listeners = map[string]map[int]map[string]interface{}{}
-
-	//dispatcher.listeners[name][len(dispatcher.listeners[name])] = map[string]interface{}{
-	//	nameType.String() : performing,
-	//}
-	//dispatcher.listeners[name][len(dispatcher.listeners[name])] = make(map[string]interface{})
-
-	//dispatcher.listeners[name][len(dispatcher.listeners[name])][ nameType.String()] = performing
-
 	if _, exist := dispatcher.listeners[name]; !exist {
 		dispatcher.listeners[name] = map[int]map[string]interface{}{}
 	}
 	dispatcher.listeners[name][len(dispatcher.listeners[name])] = map[string]interface{}{
 		nameType.String(): performing,
+	}
+}
+
+func (dispatcher *Dispatcher) Go(event string)  {
+	if _, exist := dispatcher.listeners[event]; exist{
+		for _, iterate := range dispatcher.listeners[event] {
+			for typing, pointer := range iterate {
+				resolver(typing, pointer)
+				log.Println(typing,pointer)
+			}
+		}
+	} else {
+		panic("This is event : '" + event + "'  not exist.")
+	}
+}
+
+// alias Go method
+func (dispatcher *Dispatcher) Fire(event string)  {
+	dispatcher.Go(event)
+}
+
+
+func resolver(pointerType string, pointer interface{}) {
+	switch pointerType {
+	// call closure
+	  case "func()" :
+		  value :=  reflect.ValueOf(pointer)
+		  value.Call(nil)
 	}
 }
 
