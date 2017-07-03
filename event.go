@@ -21,12 +21,16 @@ type Dispatcher struct {
 	//			       -- [type-structure] *pointer
 
 	listeners map[string]map[int]map[string]interface{}
+
+	// Storage for structure Event
+	listenersStr map[Event]map[int]Listener
 }
 
 // start
 func Constructor() *Dispatcher {
 	d := &Dispatcher{}
 	d.listeners = map[string]map[int]map[string]interface{}{}
+	d.listenersStr = map[Event]map[int]Listener{}
 	return d
 }
 
@@ -42,9 +46,16 @@ func (dispatcher *Dispatcher) AddClosure(name string, performing interface{}) {
 	}
 }
 
-func (dispatcher *Dispatcher) AddStructure(name interface{}, performing struct{})  {
-	nameStructure := getNameStructure(name)
-	dispatcher.AddClosure(nameStructure, performing)
+func (dispatcher *Dispatcher) AddStructure(name Event, performing Listener)  {
+	//nameStructure := getNameStructure(name)
+	if _, exist := dispatcher.listenersStr[name]; !exist {
+		dispatcher.listenersStr[name] = map[int]Listener{}
+	}
+	dispatcher.listenersStr[name][len(dispatcher.listenersStr[name])] = performing
+
+	log.Println(dispatcher.listenersStr)
+	os.Exit(2)
+	//dispatcher.AddClosure(nameStructure, performing)
 }
 
 
@@ -66,8 +77,7 @@ func (dispatcher *Dispatcher) Fire(event string, parameters ...interface{}) {
 }
 
 func resolver(pointerType string, pointer interface{}, parameters ...interface{}) {
-	log.Println(pointerType)
-	os.Exit(2)
+
 	switch pointerType {
 	// call closure
 	case "func":
