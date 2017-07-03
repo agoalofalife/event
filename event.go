@@ -2,8 +2,8 @@ package event
 
 import (
 	"reflect"
-	"log"
 	"os"
+	"log"
 )
 
 type Event interface {
@@ -47,15 +47,15 @@ func (dispatcher *Dispatcher) AddClosure(name string, performing interface{}) {
 }
 
 func (dispatcher *Dispatcher) AddStructure(name Event, performing Listener)  {
-	//nameStructure := getNameStructure(name)
-	if _, exist := dispatcher.listenersStr[name]; !exist {
-		dispatcher.listenersStr[name] = map[int]Listener{}
-	}
-	dispatcher.listenersStr[name][len(dispatcher.listenersStr[name])] = performing
-
-	log.Println(dispatcher.listenersStr)
-	os.Exit(2)
-	//dispatcher.AddClosure(nameStructure, performing)
+	nameStructure := getNameStructure(name)
+	//if _, exist := dispatcher.listenersStr[name]; !exist {
+	//	dispatcher.listenersStr[name] = map[int]Listener{}
+	//}
+	//dispatcher.listenersStr[name][len(dispatcher.listenersStr[name])] = performing
+	//
+	//log.Println(dispatcher.listenersStr)
+	//os.Exit(2)
+	dispatcher.AddClosure(nameStructure, performing)
 }
 
 
@@ -89,6 +89,12 @@ func resolver(pointerType string, pointer interface{}, parameters ...interface{}
 
 		value := reflect.ValueOf(pointer)
 		value.Call(in)
+	case "struct":
+		if reflect.TypeOf(pointer).Name() != "Listener" {
+			panic("Listener must be a listener of events")
+		}
+		//log.Println(pointer.(Listener).Handler())
+		os.Exit(2)
 	}
 }
 
