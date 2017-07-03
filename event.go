@@ -5,7 +5,10 @@ import (
 )
 
 type Event interface {
-	Add(name string, performing interface{})
+}
+
+type Listener interface {
+	Handler(event Event)
 }
 
 type Dispatcher struct {
@@ -70,7 +73,6 @@ func resolver(pointerType string, pointer interface{}, parameters ...interface{}
 
 		value := reflect.ValueOf(pointer)
 		value.Call(in)
-
 	}
 }
 
