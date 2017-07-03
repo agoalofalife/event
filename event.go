@@ -42,9 +42,9 @@ func (dispatcher *Dispatcher) AddClosure(name string, performing interface{}) {
 	}
 }
 
-func (dispatcher *Dispatcher) AddStructure(name struct{}, performing struct{})  {
-	log.Println(reflect.ValueOf(name)))
-	os.Exit(2)
+func (dispatcher *Dispatcher) AddStructure(name interface{}, performing struct{})  {
+	nameStructure := getNameStructure(name)
+	dispatcher.AddClosure(nameStructure, performing)
 }
 
 
@@ -66,6 +66,8 @@ func (dispatcher *Dispatcher) Fire(event string, parameters ...interface{}) {
 }
 
 func resolver(pointerType string, pointer interface{}, parameters ...interface{}) {
+	log.Println(pointerType)
+	os.Exit(2)
 	switch pointerType {
 	// call closure
 	case "func":
@@ -85,6 +87,6 @@ func getType(some interface{}) reflect.Kind {
 	return reflect.ValueOf(some).Kind()
 }
 
-func getNameStructure(structure struct{}) string {
+func getNameStructure(structure interface{}) string {
 	return reflect.TypeOf(structure).Name()
 }
