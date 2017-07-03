@@ -8,25 +8,38 @@ type Event interface{
 	Add(name string, performing interface{})
 }
 
-// display map events
-//     event [name-events] --
-//			   -- [type-structure] *link
+
 
 type Dispatcher struct {
 	// list listeners
-	listeners map[string]map[string]interface{}
-}
+	// display map events
+	//     event [name-events] --
+	//			     -- [number-iterate]
+	//			       -- [type-structure] *pointer
 
+	listeners map[string]map[int]map[string]interface{}
+}
+// start
 func Constructor()  *Dispatcher{
 	d := &Dispatcher{}
-	d.listeners = make(map[string]map[string]interface{})
+	d.listeners = make(map[string]map[int]map[string]interface{})
 	return d
 }
+
 // add new event
 func (dispatcher *Dispatcher) Add(name string, performing interface{}) {
 	nameType := getType(performing)
-	dispatcher.listeners[name] = make(map[string]interface{})
-	dispatcher.listeners[name][nameType.String()] = performing
+	//dispatcher.listeners[name] = make(map[int]map[string]interface{})
+	//dispatcher.listeners[name][len(dispatcher.listeners[name])] = map[string]interface{}{"w":performing}
+	dispatcher.listeners = map[string]map[int]map[string]interface{}{
+		name : map[int]map[string]interface{}{
+			len(dispatcher.listeners[name]) : map[string]interface{}{
+				nameType.String() : performing,
+			},
+		},
+	}
+
+	//dispatcher.listeners[name][len(dispatcher.listeners[name])] = performing
 }
 
 
