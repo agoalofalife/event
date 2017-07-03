@@ -2,7 +2,6 @@ package event
 
 import (
 	"reflect"
-
 )
 
 type Event interface{
@@ -19,13 +18,14 @@ type Dispatcher struct {
 }
 
 func Constructor()  *Dispatcher{
-	d := Dispatcher{}
+	d := &Dispatcher{}
 	d.listeners = make(map[string]map[string]interface{})
-	return &d
+	return d
 }
+// add new event
 func (dispatcher *Dispatcher) Add(name string, execute interface{}) {
 	nameType := getType(execute)
-
+	dispatcher.listeners[name] = make(map[string]interface{})
 	dispatcher.listeners[name][nameType.String()] = execute
 }
 
