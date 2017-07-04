@@ -1,5 +1,7 @@
 
+
 ## Event
+[![Build Status](https://travis-ci.org/agoalofalife/event.svg?branch=master)](https://travis-ci.org/agoalofalife/event)
 
 This is package implements [pattern-observer](https://en.wikipedia.org/wiki/Observer_pattern)
 
