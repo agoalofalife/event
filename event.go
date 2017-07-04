@@ -106,7 +106,7 @@ func GetName(structure interface{}) string {
 }
 
 func resolver(pointerType string, pointer interface{}, parameters []interface{}) {
-
+	// TODO  leave it so
 	switch pointerType {
 	// call closure
 	case "func":
