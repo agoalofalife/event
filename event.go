@@ -33,18 +33,25 @@ func Constructor() *Dispatcher {
 
 // add new listeners
 func (dispatcher *Dispatcher) Add(name string, performing interface{}, argument []interface{}) {
-
 	nameType := getType(performing)
 
-	if _, exist := dispatcher.listeners[name]; !exist {
+	if _, exist := dispatcher.listeners[name]; !exist{
 		dispatcher.listeners[name] = map[int]map[string]map[interface{}][]interface{}{}
 	}
 
-	dispatcher.listeners[name][len(dispatcher.listeners[name])] = map[string]interface{}{
-		nameType.String(): performing,
+	if _, exist := dispatcher.listeners[name][len(dispatcher.listeners[name])]; !exist {
+		dispatcher.listeners[name][len(dispatcher.listeners[name])] = map[string]map[interface{}][]interface{}{}
 	}
-	log.Println(argument)
+
+	dispatcher.listeners[name][len(dispatcher.listeners[name])][nameType.String()] = map[interface{}][]interface{}{
+			performing : argument,
+		}
+	log.Println(dispatcher.listeners)
 	os.Exit(2)
+	//dispatcher.listeners[name][len(dispatcher.listeners[name])] = map[string]interface{}{
+	//	nameType.String(): performing,
+	//}
+
 }
 
 func (dispatcher *Dispatcher) Go(event string, parameters ...interface{}) {
