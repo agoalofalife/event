@@ -10,4 +10,4 @@ script:
 
 
 after_success:
-  - bash <(curl -s https://codecov.io/bash) -t c003e3ea-a0f8-478e-9233-5600c7920570
+  - bash <(curl -s https://codecov.io/bash)
