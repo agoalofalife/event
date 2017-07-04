@@ -6,9 +6,6 @@ go:
  - tip
 
 script:
+ - go test -v ./...
  - go list -f '{{if len .TestGoFiles}}"go test -coverprofile={{.Dir}}/.coverprofile {{.ImportPath}}"{{end}}' ./... | xargs -i sh -c {}
  - gover . coverprofile.txt
- - go test -v ./...
- after_success:
-   # Send coverage reports to Codecov
-   - bash < (curl -s https://codecov.io/bash) -f coverprofile.txt
