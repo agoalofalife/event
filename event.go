@@ -45,18 +45,6 @@ func (dispatcher *Dispatcher) Add(name string, performing interface{}) {
 	}
 }
 
-func (dispatcher *Dispatcher) AddStructure(name Event, performing Listener) {
-	nameStructure := getNameStructure(name)
-	//if _, exist := dispatcher.listenersStr[name]; !exist {
-	//	dispatcher.listenersStr[name] = map[int]Listener{}
-	//}
-	//dispatcher.listenersStr[name][len(dispatcher.listenersStr[name])] = performing
-	//
-	//log.Println(dispatcher.listenersStr)
-	//os.Exit(2)
-	dispatcher.Add(nameStructure, performing)
-}
-
 func (dispatcher *Dispatcher) Go(event string, parameters ...interface{}) {
 	if _, exist := dispatcher.listeners[event]; exist {
 		for _, iterate := range dispatcher.listeners[event] {
@@ -87,20 +75,10 @@ func resolver(pointerType string, pointer interface{}, parameters ...interface{}
 
 		value := reflect.ValueOf(pointer)
 		value.Call(in)
-	case "struct":
-		if reflect.TypeOf(pointer).Name() != "Listener" {
-			panic("Listener must be a listener of events")
-		}
-		//log.Println(pointer.(Listener).Handler())
-		os.Exit(2)
 	}
 }
 
 // get type  return (func, string ..)
 func getType(some interface{}) reflect.Kind {
 	return reflect.ValueOf(some).Kind()
-}
-
-func getNameStructure(structure interface{}) string {
-	return reflect.TypeOf(structure).Name()
 }
