@@ -7,4 +7,8 @@ go:
 
 script:
  - go test -v ./...
- - go list -f '{{if len .TestGoFiles}}"go test -coverprofile={{.Dir}}/.coverprofile {{.ImportPath}}"{{end}}' ./... | xargs -i sh -c {}
+- go test -race -coverprofile=coverage.txt -covermode=atomic
+
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
