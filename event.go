@@ -19,16 +19,12 @@ type Dispatcher struct {
 	//			       -- [type-structure] *pointer
 
 	listeners map[string]map[int]map[string]interface{}
-
-	// Storage for structure Event
-	listenersStr map[Event]map[int]Listener
 }
 
 // start
 func Constructor() *Dispatcher {
 	d := &Dispatcher{}
 	d.listeners = map[string]map[int]map[string]interface{}{}
-	d.listenersStr = map[Event]map[int]Listener{}
 	return d
 }
 
@@ -59,6 +55,11 @@ func (dispatcher *Dispatcher) Go(event string, parameters ...interface{}) {
 // alias Go method
 func (dispatcher *Dispatcher) Fire(event string, parameters ...interface{}) {
 	dispatcher.Go(event, parameters...)
+}
+
+// get Name
+func GetName(structure interface{}) string {
+	return reflect.TypeOf(structure).Name()
 }
 
 func resolver(pointerType string, pointer interface{}, parameters ...interface{}) {
