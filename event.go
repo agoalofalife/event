@@ -2,6 +2,8 @@ package event
 
 import (
 	"reflect"
+	"log"
+	"os"
 )
 
 type Event interface {
@@ -16,28 +18,33 @@ type Dispatcher struct {
 	// display map events
 	//     event [name-events] --
 	//			     -- [number-iterate]
-	//			       -- [type-structure] *pointer
+	//			       -- [type-structure]
+	//				 -- [type-structure] ...arguments slice : interface{}
 
-	listeners map[string]map[int]map[string]interface{}
+	listeners map[string]map[int]map[string]map[interface{}][]interface{}
 }
 
 // start
 func Constructor() *Dispatcher {
 	d := &Dispatcher{}
-	d.listeners = map[string]map[int]map[string]interface{}{}
+	d.listeners = map[string]map[int]map[string]map[interface{}][]interface{}{}
 	return d
 }
 
 // add new listeners
-func (dispatcher *Dispatcher) Add(name string, performing interface{}) {
+func (dispatcher *Dispatcher) Add(name string, performing interface{}, argument []interface{}) {
+
 	nameType := getType(performing)
 
 	if _, exist := dispatcher.listeners[name]; !exist {
-		dispatcher.listeners[name] = map[int]map[string]interface{}{}
+		dispatcher.listeners[name] = map[int]map[string]map[interface{}][]interface{}{}
 	}
+
 	dispatcher.listeners[name][len(dispatcher.listeners[name])] = map[string]interface{}{
 		nameType.String(): performing,
 	}
+	log.Println(argument)
+	os.Exit(2)
 }
 
 func (dispatcher *Dispatcher) Go(event string, parameters ...interface{}) {
