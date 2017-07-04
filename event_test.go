@@ -1,11 +1,11 @@
 package event
 
 import (
-	"testing"
 	"reflect"
+	"testing"
 )
 
-const nameEvent  = "test"
+const nameEvent = "test"
 
 func createEvent() *Dispatcher {
 	return Constructor()
@@ -21,7 +21,7 @@ func TestDestroy(t *testing.T) {
 	}
 }
 
-func TestUntie(t *testing.T)  {
+func TestUntie(t *testing.T) {
 	event := createEvent()
 	closure := func() {}
 	event.Add(nameEvent, closure, []interface{}{})
@@ -32,7 +32,7 @@ func TestUntie(t *testing.T)  {
 	}
 }
 
-func TestAdd(t *testing.T)  {
+func TestAdd(t *testing.T) {
 	event := createEvent()
 	closure := func() {}
 	event.Add(nameEvent, closure, []interface{}{})
@@ -58,10 +58,10 @@ func TestAdd(t *testing.T)  {
 //	event.Go(nameEvent)
 //}
 
-func TestGetName(t *testing.T)  {
-	type Test struct {}
+func TestGetName(t *testing.T) {
+	type Test struct{}
 
-	if GetName(Test{}) != "Test"{
+	if GetName(Test{}) != "Test" {
 		t.Error("GetName structure error")
 	}
 

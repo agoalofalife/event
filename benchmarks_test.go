@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func BenchmarkAdd(b *testing.B){
+func BenchmarkAdd(b *testing.B) {
 	e := createEvent()
 	for i := 0; i < b.N; i++ {
 		e.Add(nameEvent, func() {}, []interface{}{})
