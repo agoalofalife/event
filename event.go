@@ -4,13 +4,6 @@ import (
 	"reflect"
 )
 
-type Event interface {
-}
-
-type Listener interface {
-	Handler(event Event)
-}
-
 const (
 	typing    = "type"
 	structure = "structure"
@@ -19,7 +12,7 @@ const (
 
 type Dispatcher struct {
 	// list listeners
-	// display map events
+	// display map events :
 	//     event [name-events] --
 	//			     -- [number-iterate]
 	//			         -- type => [type-structure]
@@ -53,7 +46,7 @@ func (dispatcher *Dispatcher) Add(name string, performing interface{}, parameter
 
 func (dispatcher *Dispatcher) Go(event string) {
 
-	if _, exist := dispatcher.listeners[event]; exist {
+	if dispatcher.existEvent(event) {
 		for _, iterate := range dispatcher.listeners[event] {
 			resolver(iterate[typing].(string), iterate[structure], iterate[arguments].([]interface{}))
 		}
@@ -67,7 +60,25 @@ func (dispatcher *Dispatcher) Fire(event string) {
 	dispatcher.Go(event)
 }
 
-// get Name
+// remove or untie event
+func (dispatcher *Dispatcher) Destroy(event string) {
+
+	if dispatcher.existEvent(event) {
+		delete(dispatcher.listeners, event)
+	} else {
+		panic("This is event : '" + event + "'  not exist.")
+	}
+}
+
+// check exist event inner structure
+func (dispatcher *Dispatcher) existEvent(event string) bool {
+	if _, exist := dispatcher.listeners[event]; exist {
+		return true
+	}
+	return false
+}
+
+// get Name sugar syntax
 func GetName(structure interface{}) string {
 	return reflect.TypeOf(structure).Name()
 }
