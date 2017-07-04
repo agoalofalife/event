@@ -19,39 +19,40 @@ type Dispatcher struct {
 	//     event [name-events] --
 	//			     -- [number-iterate]
 	//			       -- [type-structure]
-	//				 -- [type-structure] ...arguments slice : interface{}
+	//				 -- [structure] ...arguments slice : interface{}
 
-	listeners map[string]map[int]map[string]map[interface{}][]interface{}
+	listeners map[string]map[int]map[string]interface{}
 }
 
 // start
 func Constructor() *Dispatcher {
 	d := &Dispatcher{}
-	d.listeners = map[string]map[int]map[string]map[interface{}][]interface{}{}
+	d.listeners = map[string]map[int]map[string]interface{}{}
 	return d
 }
 
 // add new listeners
-func (dispatcher *Dispatcher) Add(name string, performing interface{}, argument []interface{}) {
+func (dispatcher *Dispatcher) Add(name string, performing interface{}, arguments []interface{}) {
 	nameType := getType(performing)
 
 	if _, exist := dispatcher.listeners[name]; !exist{
-		dispatcher.listeners[name] = map[int]map[string]map[interface{}][]interface{}{}
+		dispatcher.listeners[name] =map[int]map[string]interface{}{}
 	}
 
-	if _, exist := dispatcher.listeners[name][len(dispatcher.listeners[name])]; !exist {
-		dispatcher.listeners[name][len(dispatcher.listeners[name])] = map[string]map[interface{}][]interface{}{}
-	}
 
-	dispatcher.listeners[name][len(dispatcher.listeners[name])][nameType.String()] = map[interface{}][]interface{}{
-			performing : argument,
-		}
+	//dispatcher.listeners[name][len(dispatcher.listeners[name])] = map[string]map[interface{}][]interface{}{}
+	//dispatcher.listeners[name][len(dispatcher.listeners[name])][nameType.String()] = map[interface{}][]interface{}{
+	//		performing : argument,
+	//	}
+	//log.Println(dispatcher.listeners)
+	//os.Exit(2)
+	dispatcher.listeners[name][len(dispatcher.listeners[name])] = map[string]interface{}{
+		"type" : nameType.String(),
+		"structure" : performing,
+		"arguments" : arguments,
+	}
 	log.Println(dispatcher.listeners)
 	os.Exit(2)
-	//dispatcher.listeners[name][len(dispatcher.listeners[name])] = map[string]interface{}{
-	//	nameType.String(): performing,
-	//}
-
 }
 
 func (dispatcher *Dispatcher) Go(event string, parameters ...interface{}) {
