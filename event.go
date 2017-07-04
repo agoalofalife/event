@@ -2,8 +2,6 @@ package event
 
 import (
 	"reflect"
-	"log"
-	"os"
 )
 
 type Event interface {
@@ -13,13 +11,20 @@ type Listener interface {
 	Handler(event Event)
 }
 
+const (
+	typing    = "type"
+	structure = "structure"
+	arguments = "arguments"
+)
+
 type Dispatcher struct {
 	// list listeners
 	// display map events
 	//     event [name-events] --
 	//			     -- [number-iterate]
-	//			       -- [type-structure]
-	//				 -- [structure] ...arguments slice : interface{}
+	//			         -- type => [type-structure]
+	//				 -- structure => [structure]
+	//				 -- arguments => ...arguments slice : interface{}
 
 	listeners map[string]map[int]map[string]interface{}
 }
@@ -32,35 +37,25 @@ func Constructor() *Dispatcher {
 }
 
 // add new listeners
-func (dispatcher *Dispatcher) Add(name string, performing interface{}, arguments []interface{}) {
+func (dispatcher *Dispatcher) Add(name string, performing interface{}, parameters []interface{}) {
 	nameType := getType(performing)
 
-	if _, exist := dispatcher.listeners[name]; !exist{
-		dispatcher.listeners[name] =map[int]map[string]interface{}{}
+	if _, exist := dispatcher.listeners[name]; !exist {
+		dispatcher.listeners[name] = map[int]map[string]interface{}{}
 	}
 
-
-	//dispatcher.listeners[name][len(dispatcher.listeners[name])] = map[string]map[interface{}][]interface{}{}
-	//dispatcher.listeners[name][len(dispatcher.listeners[name])][nameType.String()] = map[interface{}][]interface{}{
-	//		performing : argument,
-	//	}
-	//log.Println(dispatcher.listeners)
-	//os.Exit(2)
 	dispatcher.listeners[name][len(dispatcher.listeners[name])] = map[string]interface{}{
-		"type" : nameType.String(),
-		"structure" : performing,
-		"arguments" : arguments,
+		typing:    nameType.String(),
+		structure: performing,
+		arguments: parameters,
 	}
-	log.Println(dispatcher.listeners)
-	os.Exit(2)
 }
 
-func (dispatcher *Dispatcher) Go(event string, parameters ...interface{}) {
+func (dispatcher *Dispatcher) Go(event string) {
+
 	if _, exist := dispatcher.listeners[event]; exist {
 		for _, iterate := range dispatcher.listeners[event] {
-			for typing, pointer := range iterate {
-				resolver(typing, pointer, parameters...)
-			}
+			resolver(iterate[typing].(string), iterate[structure], iterate[arguments].([]interface{}))
 		}
 	} else {
 		panic("This is event : '" + event + "'  not exist.")
@@ -68,8 +63,8 @@ func (dispatcher *Dispatcher) Go(event string, parameters ...interface{}) {
 }
 
 // alias Go method
-func (dispatcher *Dispatcher) Fire(event string, parameters ...interface{}) {
-	dispatcher.Go(event, parameters...)
+func (dispatcher *Dispatcher) Fire(event string) {
+	dispatcher.Go(event)
 }
 
 // get Name
@@ -77,7 +72,7 @@ func GetName(structure interface{}) string {
 	return reflect.TypeOf(structure).Name()
 }
 
-func resolver(pointerType string, pointer interface{}, parameters ...interface{}) {
+func resolver(pointerType string, pointer interface{}, parameters []interface{}) {
 
 	switch pointerType {
 	// call closure
@@ -85,6 +80,7 @@ func resolver(pointerType string, pointer interface{}, parameters ...interface{}
 		in := make([]reflect.Value, 0)
 
 		for _, argument := range parameters {
+
 			in = append(in, reflect.ValueOf(argument))
 		}
 
