@@ -2,8 +2,6 @@ package event
 
 import (
 	"testing"
-	"log"
-	"os"
 )
 
 func createEvent() *Dispatcher {
@@ -25,7 +23,8 @@ func TestUntie(t *testing.T)  {
 	closure := func() {}
 	event.Add("test", closure, []interface{}{})
 	event.Untie(closure)
-	log.Println(event.listeners)
-	os.Exit(2)
-	event.Fire("test")
+
+	if event.existSubscriber(closure) {
+		t.Error("Subscriber not deleted")
+	}
 }

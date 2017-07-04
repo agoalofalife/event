@@ -78,13 +78,24 @@ func (dispatcher *Dispatcher) Untie(pointer interface{}) {
 			}
 		}
 	}
-
 }
 
 // check exist event inner structure
 func (dispatcher *Dispatcher) existEvent(event string) bool {
 	if _, exist := dispatcher.listeners[event]; exist {
 		return true
+	}
+	return false
+}
+
+// check exist subscriber in event
+func (dispatcher *Dispatcher) existSubscriber(subscriber interface{}) bool {
+	for _, event := range dispatcher.listeners {
+		for _, iterate := range event {
+			if reflect.ValueOf(iterate[structure]).Pointer() == reflect.ValueOf(subscriber).Pointer() {
+				return true
+			}
+		}
 	}
 	return false
 }
