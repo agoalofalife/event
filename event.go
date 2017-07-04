@@ -1,7 +1,6 @@
 package event
 
 import (
-	"os"
 	"reflect"
 )
 
