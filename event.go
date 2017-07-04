@@ -70,6 +70,17 @@ func (dispatcher *Dispatcher) Destroy(event string) {
 	}
 }
 
+func (dispatcher *Dispatcher) Untie(pointer interface{}) {
+	for _, event := range dispatcher.listeners {
+		for key, iterate := range event {
+			if reflect.ValueOf(iterate[structure]).Pointer() == reflect.ValueOf(pointer).Pointer() {
+				delete(event, key)
+			}
+		}
+	}
+
+}
+
 // check exist event inner structure
 func (dispatcher *Dispatcher) existEvent(event string) bool {
 	if _, exist := dispatcher.listeners[event]; exist {
