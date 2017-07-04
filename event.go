@@ -34,7 +34,7 @@ func Constructor() *Dispatcher {
 }
 
 // add new listeners
-func (dispatcher *Dispatcher) AddClosure(name string, performing interface{}) {
+func (dispatcher *Dispatcher) Add(name string, performing interface{}) {
 	nameType := getType(performing)
 
 	if _, exist := dispatcher.listeners[name]; !exist {
@@ -54,7 +54,7 @@ func (dispatcher *Dispatcher) AddStructure(name Event, performing Listener) {
 	//
 	//log.Println(dispatcher.listenersStr)
 	//os.Exit(2)
-	dispatcher.AddClosure(nameStructure, performing)
+	dispatcher.Add(nameStructure, performing)
 }
 
 func (dispatcher *Dispatcher) Go(event string, parameters ...interface{}) {
