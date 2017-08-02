@@ -21,6 +21,17 @@ func TestDestroy(t *testing.T) {
 	}
 }
 
+func TestDestroyNotExist(t *testing.T)  {
+	defer func() {
+		str := recover()
+		if str != "This is event : 'qwer'  not exist." {
+			t.Fatalf("Wrong panic message: %s", str)
+		}
+	}()
+	event := createEvent()
+	event.Destroy(`qwer`)
+}
+
 func TestUntie(t *testing.T) {
 	event := createEvent()
 	closure := func() {}
@@ -57,6 +68,18 @@ func TestFire(t *testing.T) {
 	event.Fire(nameEvent)
 }
 
+func TestFireNotExist(t *testing.T) {
+	defer func() {
+		str := recover()
+		if str != "This is event : 'qwer'  not exist." {
+			t.Fatalf("Wrong panic message: %s", str)
+		}
+	}()
+	event := createEvent()
+
+	event.Fire(`qwer`)
+}
+
 func TestGetName(t *testing.T) {
 	type Test struct{}
 
@@ -64,4 +87,17 @@ func TestGetName(t *testing.T) {
 		t.Error("GetName structure error")
 	}
 
+}
+
+func TestExistSubscriber(t *testing.T)  {
+	event := createEvent()
+	closure := func() {}
+	event.Add(nameEvent, closure, []interface{}{})
+
+	if event.listeners[nameEvent][0][typing] != "func" {
+		t.Error("not installed typing")
+	}
+	if !event.existSubscriber(closure) {
+		t.Error("Subscriber test fail")
+	}
 }
