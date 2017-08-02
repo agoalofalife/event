@@ -32,5 +32,34 @@ let us consider an example:
  * Next, the first argument declares the name of the event (string type), second argument  executes when the event occurs, the third argument is passed a list of arguments, which are substituted in the parameters of the second argument.
  * In the end you need to run the event. There are two methods available "Go" and his alias "Fire"
 
+### The subscriber function method
 
+```
+func main() {
+	// create struct
+	e := event.Constructor()
+    
+    // structure
+    type Some struct {}
+    // method
+    func (s Some) echo(echo string) string {
+    	fmt.Println(echo)
+    	return echo
+    }
+
+	// subscriber 
+    temp := Some{}
+	e.Add(event.GetName(temp), temp.echo, []interface{}{"second"})
+    
+    // init event
+    e.Fire(event.GetName(temp))
+    
+    // output in terminal
+    .. second
+}
+```
+
+* In this example we sign the event method structure
+
+ 
 Read more information at  [WIKI](https://github.com/agoalofalife/event/wiki) :+1:
