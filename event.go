@@ -49,7 +49,7 @@ func (dispatcher *Dispatcher) Add(name string, performing interface{}, parameter
 func (dispatcher *Dispatcher) Go(event string) {
 	if dispatcher.existEvent(event) {
 		for _, iterate := range dispatcher.listeners[event] {
-			 resolver(iterate[typing].(string), iterate[structure], iterate[arguments].([]interface{}))
+			resolver(iterate[typing].(string), iterate[structure], iterate[arguments].([]interface{}))
 		}
 	} else {
 		panic("This is event : '" + event + "'  not exist.")

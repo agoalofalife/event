@@ -46,17 +46,16 @@ func TestAdd(t *testing.T) {
 	}
 }
 
-// TODO so not work test
-//func TestGo(t *testing.T)  {
-//	event := createEvent()
-//	nameString := "exist"
-//	closure := func(test string) string{
-//		return  test
-//	}
-//	event.Add(nameEvent, closure, []interface{}{nameString})
-//
-//	event.Go(nameEvent)
-//}
+func TestFire(t *testing.T) {
+	event := createEvent()
+	nameString := "exist"
+	closure := func(test string) string {
+		return test
+	}
+	event.Add(nameEvent, closure, []interface{}{nameString})
+
+	event.Fire(nameEvent)
+}
 
 func TestGetName(t *testing.T) {
 	type Test struct{}
