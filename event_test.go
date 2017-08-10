@@ -21,7 +21,7 @@ func TestDestroy(t *testing.T) {
 	}
 }
 
-func TestDestroyNotExist(t *testing.T)  {
+func TestDestroyNotExist(t *testing.T) {
 	defer func() {
 		str := recover()
 		if str != "This is event : 'qwer'  not exist." {
@@ -89,7 +89,7 @@ func TestGetName(t *testing.T) {
 
 }
 
-func TestExistSubscriber(t *testing.T)  {
+func TestExistSubscriber(t *testing.T) {
 	event := createEvent()
 	closure := func() {}
 	event.Add(nameEvent, closure, []interface{}{})
