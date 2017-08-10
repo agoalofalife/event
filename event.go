@@ -10,17 +10,15 @@ const (
 	arguments = "arguments"
 )
 
-type Async string
-
+// Base struct store listeners
+// list listeners
+// display map events :
+//     event [name-events] --
+//			     -- [number-iterate]
+//			         -- type => [type-structure]
+//				 -- structure => [structure]
+//				 -- arguments => ...arguments slice : interface{}
 type Dispatcher struct {
-	// list listeners
-	// display map events :
-	//     event [name-events] --
-	//			     -- [number-iterate]
-	//			         -- type => [type-structure]
-	//				 -- structure => [structure]
-	//				 -- arguments => ...arguments slice : interface{}
-
 	listeners map[string]map[int]map[string]interface{}
 }
 
