@@ -55,7 +55,7 @@ func (dispatcher *Dispatcher) Go(event string) {
 	}
 }
 
-// alias Go method
+// Fire alias Go method
 func (dispatcher *Dispatcher) Fire(event string) {
 	dispatcher.Go(event)
 }
