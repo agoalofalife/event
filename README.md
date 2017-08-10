@@ -3,6 +3,7 @@
 ## Event
 [![Build Status](https://travis-ci.org/agoalofalife/event.svg?branch=master)](https://travis-ci.org/agoalofalife/event)
 [![codecov](https://codecov.io/gh/agoalofalife/event/branch/master/graph/badge.svg)](https://codecov.io/gh/agoalofalife/event)
+[![Go Report Card](https://goreportcard.com/badge/github.com/agoalofalife/event)](https://goreportcard.com/report/github.com/agoalofalife/event)
 This is package implements [pattern-observer](https://en.wikipedia.org/wiki/Observer_pattern)
 
 ### Fast example
