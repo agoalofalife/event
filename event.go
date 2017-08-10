@@ -10,7 +10,7 @@ const (
 	arguments = "arguments"
 )
 
-// Base struct store listeners
+// Dispatcher Base struct store listeners
 // list listeners
 // display map events :
 //     event [name-events] --
