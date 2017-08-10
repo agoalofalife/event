@@ -22,14 +22,14 @@ type Dispatcher struct {
 	listeners map[string]map[int]map[string]interface{}
 }
 
-// start
+// Constructor empty create Dispatcher
 func Constructor() *Dispatcher {
 	d := &Dispatcher{}
 	d.listeners = map[string]map[int]map[string]interface{}{}
 	return d
 }
 
-// add new listeners
+// Add new listeners
 func (dispatcher *Dispatcher) Add(name string, performing interface{}, parameters []interface{}) {
 	nameType := getType(performing)
 
@@ -44,6 +44,7 @@ func (dispatcher *Dispatcher) Add(name string, performing interface{}, parameter
 	}
 }
 
+// Go alias method Fire
 func (dispatcher *Dispatcher) Go(event string) {
 	if dispatcher.existEvent(event) {
 		for _, iterate := range dispatcher.listeners[event] {
@@ -59,7 +60,7 @@ func (dispatcher *Dispatcher) Fire(event string) {
 	dispatcher.Go(event)
 }
 
-// remove or untie event
+// Destroy or untie event
 func (dispatcher *Dispatcher) Destroy(event string) {
 
 	if dispatcher.existEvent(event) {
@@ -69,6 +70,7 @@ func (dispatcher *Dispatcher) Destroy(event string) {
 	}
 }
 
+// Untie Listeners events
 func (dispatcher *Dispatcher) Untie(pointer interface{}) {
 	for _, event := range dispatcher.listeners {
 		for key, iterate := range event {
@@ -99,7 +101,7 @@ func (dispatcher *Dispatcher) existSubscriber(subscriber interface{}) bool {
 	return false
 }
 
-// get Name sugar syntax
+// GetName sugar syntax
 func GetName(structure interface{}) string {
 	return reflect.TypeOf(structure).Name()
 }
