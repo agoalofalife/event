@@ -17,7 +17,7 @@ import (
 
 func main() {
 	// create struct
-	e := event.Constructor()
+	e := event.New()
 
 	// subscriber 
 	e.Add("push.email", func(text string){
@@ -40,7 +40,7 @@ let us consider an example:
 ```go
 func main() {
 	// create struct
-	e := event.Constructor()
+	e := event.New()
     
     // structure
     type Some struct {}

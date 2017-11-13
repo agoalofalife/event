@@ -22,8 +22,8 @@ type Dispatcher struct {
 	listeners map[string]map[int]map[string]interface{}
 }
 
-// Constructor empty create Dispatcher
-func Constructor() *Dispatcher {
+// New empty create Dispatcher
+func New() *Dispatcher {
 	d := &Dispatcher{}
 	d.listeners = map[string]map[int]map[string]interface{}{}
 	return d

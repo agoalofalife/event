@@ -8,7 +8,7 @@ import (
 const nameEvent = "test"
 
 func createEvent() *Dispatcher {
-	return Constructor()
+	return New()
 }
 
 func TestDestroy(t *testing.T) {
