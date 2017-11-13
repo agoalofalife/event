@@ -10,7 +10,7 @@ This is package implements [pattern-observer](https://en.wikipedia.org/wiki/Obse
 
 ### Fast example
 
-```
+```go
 import (
 	"github.com/agoalofalife/event"
 )
@@ -37,7 +37,7 @@ let us consider an example:
 
 ### The subscriber function method
 
-```
+```go
 func main() {
 	// create struct
 	e := event.Constructor()
