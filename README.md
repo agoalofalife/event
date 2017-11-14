@@ -38,28 +38,25 @@ let us consider an example:
 ### The subscriber function method
 
 ```go
-func main() {
-	// create struct
-	e := event.New()
-    
-    // structure
-    type Some struct {}
-    // method
-    func (s Some) echo(echo string) string {
-    	fmt.Println(echo)
-    	return echo
-    }
-
-	// subscriber 
-    temp := Some{}
-	e.Add(event.GetName(temp), temp.echo, []interface{}{"second"})
-    
-    // init event
-    e.Fire(event.GetName(temp))
-    
-    // output in terminal
-    .. second
+type Email struct {
+	count int
 }
+func (e *Email) Push() {
+	e.count += 1
+	fmt.Printf("Push email again, count %d \n", e.count)
+}
+func main() {
+	e := event.New()
+	
+	email := new(Email)
+	
+	e.Add(event.GetName(email), email.Push, []interface{}{})
+	e.Fire(event.GetName(email))
+	e.Fire(event.GetName(email))
+}
+// output 
+// Push email again, count 1 
+// Push email again, count 2 
 ```
 
 * In this example we sign the event method structure
