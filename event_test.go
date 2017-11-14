@@ -52,7 +52,7 @@ func TestAdd(t *testing.T) {
 		t.Error("not installed typing")
 	}
 
-	if reflect.ValueOf(event.listeners[nameEvent][0][structure]).Pointer() != reflect.ValueOf(closure).Pointer() {
+	if reflect.ValueOf(event.listeners[nameEvent][0][perform]).Pointer() != reflect.ValueOf(closure).Pointer() {
 		t.Error("not installed structure")
 	}
 }

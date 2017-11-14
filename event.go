@@ -6,7 +6,7 @@ import (
 
 const (
 	typing    = "type"
-	structure = "structure"
+	perform = "perform"
 	arguments = "arguments"
 )
 
@@ -34,12 +34,12 @@ func (dispatcher *Dispatcher) Add(name string, performing interface{}, parameter
 	nameType := getType(performing)
 
 	if _, exist := dispatcher.listeners[name]; !exist {
-		dispatcher.listeners[name] = map[int]map[string]interface{}{}
+		dispatcher.listeners[name] = make(map[int]map[string]interface{})
 	}
 
 	dispatcher.listeners[name][len(dispatcher.listeners[name])] = map[string]interface{}{
 		typing:    nameType.String(),
-		structure: performing,
+		perform: performing,
 		arguments: parameters,
 	}
 }
@@ -48,7 +48,7 @@ func (dispatcher *Dispatcher) Add(name string, performing interface{}, parameter
 func (dispatcher *Dispatcher) Go(event string) {
 	if dispatcher.existEvent(event) {
 		for _, iterate := range dispatcher.listeners[event] {
-			resolver(iterate[typing].(string), iterate[structure], iterate[arguments].([]interface{}))
+			resolver(iterate[typing].(string), iterate[perform], iterate[arguments].([]interface{}))
 		}
 	} else {
 		panic("This is event : '" + event + "'  not exist.")
@@ -74,7 +74,7 @@ func (dispatcher *Dispatcher) Destroy(event string) {
 func (dispatcher *Dispatcher) Untie(pointer interface{}) {
 	for _, event := range dispatcher.listeners {
 		for key, iterate := range event {
-			if reflect.ValueOf(iterate[structure]).Pointer() == reflect.ValueOf(pointer).Pointer() {
+			if reflect.ValueOf(iterate[perform]).Pointer() == reflect.ValueOf(pointer).Pointer() {
 				delete(event, key)
 			}
 		}
@@ -93,7 +93,7 @@ func (dispatcher *Dispatcher) existEvent(event string) bool {
 func (dispatcher *Dispatcher) existSubscriber(subscriber interface{}) bool {
 	for _, event := range dispatcher.listeners {
 		for _, iterate := range event {
-			if reflect.ValueOf(iterate[structure]).Pointer() == reflect.ValueOf(subscriber).Pointer() {
+			if reflect.ValueOf(iterate[perform]).Pointer() == reflect.ValueOf(subscriber).Pointer() {
 				return true
 			}
 		}
