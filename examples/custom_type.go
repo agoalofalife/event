@@ -1,4 +1,4 @@
-package main
+package examples
 
 import (
 	"github.com/agoalofalife/event"
@@ -7,7 +7,7 @@ import (
 
 type Profession string
 
-func main() {
+func custom() {
 	var engineer Profession = "engineer"
 
 	e := event.New()

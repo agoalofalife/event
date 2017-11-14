@@ -1,11 +1,11 @@
-package main
+package examples
 
 import (
 	"github.com/agoalofalife/event"
 	"fmt"
 )
 
-func main() {
+func base() {
 	e := event.New()
 	// here is callback
 	var counter int

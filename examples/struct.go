@@ -1,4 +1,4 @@
-package main
+package examples
 
 import (
 	"fmt"
@@ -35,7 +35,7 @@ func (e Email) Post() {
 		   Date      : %v,
 		`, e.sender, e.recipient, e.subject, e.text, e.date)
 }
-func main() {
+func structFunc() {
 	e := event.New()
 
 	containerEmail := EmailHistory{
