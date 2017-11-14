@@ -62,4 +62,4 @@ func main() {
 * In this example we sign the event method structure
 
  
-Read more information at  [WIKI](https://github.com/agoalofalife/event/wiki) :+1:
+Read more information at  [examples](github.com/agoalofalife/event/tree/master/examples) :+1:
