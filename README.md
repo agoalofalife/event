@@ -22,7 +22,7 @@ func main() {
 	// subscriber 
 	e.Add("push.email", func(text string){
     	// some logic 
-    }, []interface{}{"text"})
+    }, "text")
     
     // init event
     e.Fire("push.email") // or e.Go("push.email")
@@ -50,9 +50,9 @@ func main() {
 	
 	email := new(Email)
 	
-	e.Add(event.GetName(email), email.Push, []interface{}{})
-	e.Fire(event.GetName(email))
-	e.Fire(event.GetName(email))
+	e.Add(email, email.Push)
+	e.Fire(email)
+	e.Fire(email)
 }
 // output 
 // Push email again, count 1 
