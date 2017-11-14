@@ -68,6 +68,7 @@ func TestFire(t *testing.T) {
 	event.Add(nameEvent, closure, nameString)
 
 	event.Fire(nameEvent)
+	event.Fire(nameEvent, "override")
 }
 func TestFireNotExist(t *testing.T) {
 	t.Parallel()

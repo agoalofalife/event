@@ -53,8 +53,8 @@ func (dispatcher *Dispatcher) Add(name interface{}, performing interface{}, para
 	return flag, err
 }
 
-// Go alias method Fire
-func (dispatcher *Dispatcher) Go(event interface{}) (err error) {
+// Go alias method Fire; parameters override
+func (dispatcher *Dispatcher) Go(event interface{}, parameters ...interface{}) (err error) {
 	subscriber, err := factoryNames(event)
 	if err != nil {
 		return err
@@ -62,6 +62,9 @@ func (dispatcher *Dispatcher) Go(event interface{}) (err error) {
 
 	if dispatcher.existEvent(subscriber) {
 		for _, iterate := range dispatcher.listeners[subscriber] {
+			if parameters != nil {
+				iterate[arguments]= parameters
+			}
 			resolver(iterate[typing].(string), iterate[perform], iterate[arguments].([]interface{}))
 		}
 	} else {
@@ -71,8 +74,8 @@ func (dispatcher *Dispatcher) Go(event interface{}) (err error) {
 }
 
 // Fire alias Go method
-func (dispatcher *Dispatcher) Fire(event interface{}) (err error) {
-	return dispatcher.Go(event)
+func (dispatcher *Dispatcher) Fire(event interface{}, parameters ...interface{}) (err error) {
+	return dispatcher.Go(event, parameters...)
 }
 
 // Destroy or untie event
