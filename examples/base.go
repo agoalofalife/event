@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func base() {
+func ExampleBase() {
 	e := event.New()
 	// here is callback
 	var counter int

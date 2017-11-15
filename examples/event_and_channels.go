@@ -23,7 +23,7 @@ func (o Office) Get(msg string) {
 	fmt.Printf("there is a new message : '%s' in office\n", msg)
 }
 
-func eventAndChallels() {
+func ExampleEventAndChallels() {
 	e := event.New()
 	var message = make(chan string)
 	eventer := new(Getter)

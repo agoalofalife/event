@@ -7,7 +7,7 @@ import (
 
 type Profession string
 
-func custom() {
+func ExampleCustomType() {
 	var engineer Profession = "engineer"
 
 	e := event.New()

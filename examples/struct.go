@@ -35,7 +35,7 @@ func (e Email) Post() {
 		   Date      : %v,
 		`, e.sender, e.recipient, e.subject, e.text, e.date)
 }
-func structFunc() {
+func ExampleStructFunc() {
 	e := event.New()
 
 	containerEmail := EmailHistory{

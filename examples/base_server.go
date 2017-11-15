@@ -6,7 +6,7 @@ import (
 	"strconv"
 )
 
-func baseServer() {
+func ExampleBaseServer() {
 	e := event.New()
 
 	type CounterPing int

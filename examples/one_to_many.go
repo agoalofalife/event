@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func oneToMany() {
+func ExampleOneToMany() {
 	e := event.New()
 
 	e.Add("receiving.message", func() {
