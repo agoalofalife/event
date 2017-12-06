@@ -59,6 +59,15 @@ func main() {
 // Push email again, count 2 
 ```
 
+## Bench
+```
+// create struct and add new event handler
+BenchmarkAdd-8           1000000              1482 ns/op
+
+// create struct and add new event handler and N run this handler
+BenchmarkGo-8            5000000               339 ns/op
+
+```
 * In this example we sign the event method structure
 
  
