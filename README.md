@@ -71,4 +71,4 @@ BenchmarkGo-8            5000000               339 ns/op
 * In this example we sign the event method structure
 
  
-Read more information in [examples](github.com/agoalofalife/event/tree/master/examples) :+1:
+Read more information in [examples](https://github.com/agoalofalife/event/tree/master/examples) :+1:
