@@ -63,7 +63,7 @@ func (dispatcher *Dispatcher) Go(event interface{}, parameters ...interface{}) (
 	if dispatcher.existEvent(subscriber) {
 		for _, iterate := range dispatcher.listeners[subscriber] {
 			if parameters != nil {
-				iterate[arguments]= parameters
+				iterate[arguments] = parameters
 			}
 			resolver(iterate[typing].(string), iterate[perform], iterate[arguments].([]interface{}))
 		}
